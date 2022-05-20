@@ -1,5 +1,6 @@
-import { auth, provider } from "../init-firebase.config";
+import { auth, db, provider } from "../init-firebase.config";
 import { signInWithPopup, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignIn = () => {
 
@@ -7,8 +8,17 @@ const SignIn = () => {
      await setPersistence(auth, browserLocalPersistence)
     
         const result = await signInWithPopup(auth,provider);
+        
+        await setDoc(doc(db, "users", auth.currentUser.uid.toString()), {
+            name: auth.currentUser.displayName,
+            balance: 5000,
+            uuid:auth.currentUser.uid
+          });
 
-      const user = result.user
+        localStorage.setItem('userData',JSON.stringify({ email:auth.currentUser.email, userId: auth.currentUser.uid}))
+
+        console.log(result.user)
+      
 
     }
 

@@ -10,17 +10,23 @@ import Receipt from "./Receipt"
 
 const Dashboard = () => {
   const [userData, setUserData] = useState({});
+  
 
   useEffect(() => {
     async function getUser() {
-      const docRef = doc(db, "users", "1");
+      const data = JSON.parse(localStorage.getItem('userData'))
+      console.log(data)
+      const docRef = doc(db, "users", auth.currentUser.uid.toString());
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
         setUserData(docSnap.data());
+        
+        
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
+
       }
     }
     getUser();
@@ -234,7 +240,7 @@ const Dashboard = () => {
                   <div className="w-1/2">
                     <div className="shadow-lg px-4 py-6 w-full bg-white dark:bg-gray-700 relative">
                       <p className="text-2xl text-black dark:text-white font-bold">
-                        $93.76
+                        N{userData.balance}
                       </p>
                       <p className="text-gray-400 text-sm">Wallet Balance</p>
                       <span className="rounded-full absolute p-4 bg-purple-500 top-2 right-4">
@@ -284,11 +290,11 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
 
                 <Routes>
-                  <Route path="/" component={<Options />}/>
-                  <Route path="/payment" component={<Payment />} />
-                  <Route path="/Order" component={<Order />} />
-                  <Route path="/transfer" component={<Transfer />} />
-                  <Route path="/receipt" component={<Receipt />} />
+                  <Route path="/" element={<Options />}/>
+                  <Route path="/payment" element={<Payment />} />
+                  <Route path="/payment/order" element={<Order />} />
+                  <Route path="/transfer" element={<Transfer />} />
+                  <Route path="/payment/order/receipt" element={<Receipt />} />
                 </Routes>
                 
               </div>
