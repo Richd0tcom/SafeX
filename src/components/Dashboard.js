@@ -10,6 +10,11 @@ import Receipt from "./Receipt"
 
 const Dashboard = () => {
   const [userData, setUserData] = useState({});
+  const [dest, setDest] = useState('')
+
+  function saveChanges (e){
+    setDest(e)
+  }
   
 
   useEffect(() => {
@@ -291,10 +296,10 @@ const Dashboard = () => {
 
                 <Routes>
                   <Route path="/" element={<Options />}/>
-                  <Route path="/payment" element={<Payment />} />
+                  <Route path="/payment" element={<Payment saveChanges={saveChanges}/>} />
                   <Route path="/payment/order" element={<Order />} />
                   <Route path="/transfer" element={<Transfer />} />
-                  <Route path="/payment/order/receipt" element={<Receipt />} />
+                  <Route path="/payment/order/receipt" element={<Receipt dest={dest}/>} />
                 </Routes>
                 
               </div>

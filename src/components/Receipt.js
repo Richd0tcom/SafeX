@@ -1,18 +1,18 @@
 import React, {useEffect,useState}from "react";
 import QRCode from "qrcode"
 
-const Receipt = () => {
+const Receipt = ({dest}) => {
   const data = JSON.parse(localStorage.getItem('userData'));
   const [src, setSrc]= useState('')
 
   const receipt = {
     name:data.name,
     email:data.email,
-    destination: "trenches",
+    destination: dest || "Trenches",
     eta: "5pm" 
   }
   useEffect(()=>{
-    QRCode.toDataURL(JSON.stringify(receipt)).then((data)=>{setSrc(data)})
+    QRCode.toDataURL(JSON.stringify(receipt)).then((data)=>{setSrc(data)});
   },[])
   return (
     <div className="px-1 py-2 text-gray-800">
@@ -203,7 +203,7 @@ const Receipt = () => {
               ></path>
             </svg>
             <p className="font-bold text-red-800">
-              Trenches, Naija
+              {receipt.destination}, Naija
             </p>
           </div>
         </div>
