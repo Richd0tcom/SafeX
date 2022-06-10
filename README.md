@@ -1,2 +1,2 @@
 # SafeX
-E-payment system
+Frontend for an E-wallet/payment system
